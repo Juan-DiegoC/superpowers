@@ -15,6 +15,7 @@ Dispatch superpowers:code-reviewer subagent to catch issues before they cascade.
 - After each task in subagent-driven development
 - After completing major feature
 - Before merge to main
+- **After UI tasks with Browser QA specs** — visual verification required
 
 **Optional but valuable:**
 - When stuck (fresh perspective)
@@ -42,7 +43,7 @@ Use Task tool with superpowers:code-reviewer type, fill template at `code-review
 
 **3. Act on feedback:**
 - Fix Critical issues immediately
-- Fix Important issues before proceeding
+- Fix Important issues before proceeding (includes Browser QA failures)
 - Note Minor issues for later
 - Push back if reviewer is wrong (with reasoning)
 

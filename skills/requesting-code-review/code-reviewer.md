@@ -60,6 +60,53 @@ git diff {BASE_SHA}..{HEAD_SHA}
 - Documentation complete?
 - No obvious bugs?
 
+**Browser QA (if specified in plan):**
+- Dev server starts successfully?
+- All visibility checks pass?
+- All interaction checks work?
+- Styles match specifications?
+- Screenshot captured as evidence?
+
+## Browser QA Verification
+
+If the plan includes **Browser QA** sections for reviewed tasks, execute them:
+
+1. **Parse the Browser QA section** from the plan
+2. **Start dev server** as specified
+3. **Execute each check** using agent-browser:
+   - `visible:` → verify element exists and is visible
+   - `click:` → click and verify expected result
+   - `text:` → get text and compare
+   - `styles:` → get computed styles and verify
+   - `fill:` → input text into form field
+4. **Capture screenshot** as evidence
+5. **Report results** in Issues section if any checks fail
+
+**Browser QA failures are Important issues** (should fix before merge).
+
+**Example browser QA execution:**
+
+```bash
+# Server
+npm run dev &
+sleep 3
+
+# Checks from plan
+agent-browser open http://localhost:3000
+agent-browser snapshot -i
+# visible: button "Login"
+agent-browser find text "Login"  # Returns @e1
+agent-browser is visible @e1     # Should return true
+# click: button "Login"
+agent-browser click @e1
+# visible: dialog
+agent-browser wait dialog
+agent-browser snapshot -i        # Re-snapshot after DOM change
+# Screenshot
+agent-browser screenshot review-evidence.png
+agent-browser close
+```
+
 ## Output Format
 
 ### Strengths
@@ -137,6 +184,16 @@ git diff {BASE_SHA}..{HEAD_SHA}
 ### Recommendations
 - Add progress reporting for user experience
 - Consider config file for excluded projects (portability)
+
+### Browser QA Results
+
+**Checks:** 4/4 passed
+- `visible: button "Login"` — PASS
+- `click: button "Login"` — PASS (modal opened)
+- `visible: dialog` — PASS
+- `visible: input[name="email"]` — PASS
+
+**Screenshot:** review-evidence.png
 
 ### Assessment
 
