@@ -49,6 +49,50 @@ After all tasks complete and verified:
 - **REQUIRED SUB-SKILL:** Use superpowers:finishing-a-development-branch
 - Follow that skill to verify tests, present options, execute choice
 
+## Browser QA Verification
+
+If a task includes a **Browser QA** section, execute it after the commit step:
+
+1. **Start dev server** (if `start:` specified)
+   - Run the command in background
+   - Wait for server to be ready (check port or output)
+
+2. **Run browser checks**
+   - Use `agent-browser` commands to verify each check
+   - Reference `superpowers:browser-qa` for command mapping
+
+3. **Take screenshot** (if specified)
+   - Save to `docs/screenshots/` or path in plan
+   - Include in batch report as evidence
+
+4. **Clean up**
+   - Close browser: `agent-browser close`
+   - Stop dev server if you started it
+
+**If browser QA fails:**
+- Report the specific check that failed
+- Include screenshot showing current state
+- Mark task as blocked, don't proceed to next task
+
+**Example execution:**
+
+```bash
+# Start server
+npm run dev &
+sleep 3
+
+# Run checks
+agent-browser open http://localhost:3000
+agent-browser snapshot -i
+agent-browser find text "Login" click
+agent-browser wait dialog
+agent-browser screenshot docs/screenshots/task-3-login.png
+agent-browser close
+
+# Stop server
+kill %1
+```
+
 ## When to Stop and Ask for Help
 
 **STOP executing immediately when:**
