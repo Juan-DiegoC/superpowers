@@ -87,6 +87,50 @@ git commit -m "feat: add specific feature"
 ```
 ```
 
+## Browser QA (for UI tasks)
+
+When a task modifies user-facing UI, include a **Browser QA** section after the commit step.
+
+**Include when:**
+- Adding/modifying visible components
+- Changing styles or layout
+- Adding user interactions (clicks, forms, navigation)
+
+**Format:**
+
+```markdown
+**Browser QA:**
+
+> [What to verify in plain English]
+
+- **start:** `[dev server command]`
+- **url:** `[URL to test]`
+- **checks:**
+  - `visible: [selector]` — [context]
+  - `click: [selector]` — [expected result]
+  - `styles: [selector] | [property]: [value]` — [design requirement]
+- **screenshot:** `[descriptive-filename.png]`
+```
+
+**Reference:** See `superpowers:browser-qa` skill for full check types and execution details.
+
+**Example:**
+
+```markdown
+**Browser QA:**
+
+> Verify the new search bar appears and accepts input.
+
+- **start:** `npm run dev`
+- **url:** `http://localhost:3000`
+- **checks:**
+  - `visible: input[placeholder="Search..."]` — search bar in header
+  - `fill: input[placeholder="Search..."] "test query"` — accepts text
+  - `click: button[aria-label="Search"]` — triggers search
+  - `visible: .search-results` — results container appears
+- **screenshot:** `search-bar-functional.png`
+```
+
 ## Remember
 - Exact file paths always
 - Complete code in plan (not "add validation")
